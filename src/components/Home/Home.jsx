@@ -1,35 +1,30 @@
-import React, { useState } from 'react'
-import './homeStyles.css'
-import { WebcamCapture} from '../Webcam/Webcam'
-
+import React from 'react';
+import './homeStyles.css';
+import { WebcamCapture } from '../Webcam/Webcam';
 
 const Home = () => {
+  const submitForm = () => {
+    alert('Form submitted');
+  };
 
-    const [name, setName] = useState('')
-    const [email, setEmail] = useState('');
-
-
-    const submitForm = () => {
-        alert("Form submitted");
-        setName('');
-        setEmail('');
-    }
-
-
-    return (
-        <div className="home-container">
-            <div className="container">
-                <div className="text">
-                    <h1>Fill up this form!</h1>
-                    <form className="form">
-                        <WebcamCapture/>
-                        <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-                        <input type="text" placeholder="Name" onChange={(e) => setName(e.target.value)} />
-                        <button type="submit" id="login-button" onClick={(e) => submitForm(e)}>Submit</button>
-                    </form>
-                </div>
-            </div>
+  return (
+    <div className="home-container">
+      <div className="container">
+        <div className="text">
+          <h1>Capture and Submit Your Image!</h1>
+          <form className="form">
+            <WebcamCapture />
+            {/* <button
+              type="submit"
+              id="login-button"
+              onClick={(e) => submitForm(e)}
+            >
+              Submit
+            </button> */}
+          </form>
         </div>
-    )
-}
-export default Home
+      </div>
+    </div>
+  );
+};
+export default Home;
