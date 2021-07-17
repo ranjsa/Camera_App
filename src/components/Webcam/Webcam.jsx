@@ -11,14 +11,16 @@ const videoConstraints = {
 export const WebcamCapture = () => {
   const imgArray = [];
   const webcamRef = React.useRef(null);
-  const [count, setCount] = useState(6);
+  const [count, setCount] = useState(5);
   const [makeSubmmit, setSubmit] = useState(false);
   const capture = () => {
-    if (count > 2) {
+    if (count>=1) {
+      
       setCount(count - 1);
       const imageSrc = webcamRef.current.getScreenshot();
       imgArray.push(imageSrc);
       console.log(imgArray);
+      console.log(count)
     } else {
       setSubmit(true);
     }
@@ -54,7 +56,7 @@ export const WebcamCapture = () => {
         videoConstraints={videoConstraints}
       />
       <div>
-        {makeSubmmit ? (
+        {makeSubmmit || count === 0 ? (
           <button
             onClick={(e) => {
               e.preventDefault();
@@ -73,7 +75,7 @@ export const WebcamCapture = () => {
             className="webcam-btn"
           >
             Capture
-            {' ' + (count - 1)}
+            {' ' + (count)}
           </button>
         )}
       </div>
