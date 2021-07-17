@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Webcam from 'react-webcam';
-
-//const WebcamComponent = () => <Webcam />;
+import axios from 'axios';
 
 const videoConstraints = {
   width: 420,
@@ -12,10 +11,10 @@ const videoConstraints = {
 export const WebcamCapture = () => {
   const imgArray = [];
   const webcamRef = React.useRef(null);
-  const [count, setCount] = useState(5);
+  const [count, setCount] = useState(6);
   const [makeSubmmit, setSubmit] = useState(false);
   const capture = () => {
-    if (count > 1) {
+    if (count > 2) {
       setCount(count - 1);
       const imageSrc = webcamRef.current.getScreenshot();
       imgArray.push(imageSrc);
@@ -24,23 +23,28 @@ export const WebcamCapture = () => {
       setSubmit(true);
     }
   };
-
+  const userKYC = {
+    customer_id: 'A37B2O7S12FMWC',
+    image_array: imgArray,
+  };
+  const formSubmit = async () => {
+    try {
+      const response = await axios.post(
+        'https://uolkz55l63.execute-api.us-east-1.amazonaws.com/v1/upload',
+        { userKYC },
+        {
+          headers: {
+            'Content-Type': `application/json` 
+          }
+        }
+      );
+      console.log('👉 Returned data:', response);
+    } catch (e) {
+      console.log(`😱 Axios request failed: ${e}`);
+    }
+  };
   return (
     <div className="webcam-container">
-      {/* <div className="webcam-img">
-        {image === '' ? (
-          <Webcam
-            audio={false}
-            height={400}
-            ref={webcamRef}
-            screenshotFormat="image/jpeg"
-            width={520}
-            videoConstraints={videoConstraints}
-          />
-        ) : (
-          <img src={image} alt=""/>
-        )}
-      </div> */}
       <Webcam
         audio={false}
         height={400}
@@ -51,7 +55,15 @@ export const WebcamCapture = () => {
       />
       <div>
         {makeSubmmit ? (
-          <button className="webcam-btn">Submit</button>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              formSubmit();
+            }}
+            className="webcam-btn"
+          >
+            Submit
+          </button>
         ) : (
           <button
             onClick={(e) => {
@@ -61,7 +73,7 @@ export const WebcamCapture = () => {
             className="webcam-btn"
           >
             Capture
-            {' ' + count}
+            {' ' + (count - 1)}
           </button>
         )}
       </div>
