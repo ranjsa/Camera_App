@@ -3,9 +3,9 @@ import './homeStyles.css';
 import { WebcamCapture } from '../Webcam/Webcam';
 
 const Home = () => {
-  const submitForm = () => {
-    alert('Form submitted');
-  };
+  // const submitForm = () => {
+  //   alert('Form submitted');
+  // };
 
   return (
     <div className="home-container">

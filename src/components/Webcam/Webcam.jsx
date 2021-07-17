@@ -10,7 +10,6 @@ const videoConstraints = {
 };
 
 export const WebcamCapture = () => {
-  const [image, setImage] = useState('');
   const imgArray = [];
   const webcamRef = React.useRef(null);
   const [count, setCount] = useState(5);
@@ -28,8 +27,8 @@ export const WebcamCapture = () => {
 
   return (
     <div className="webcam-container">
-      <div className="webcam-img">
-        {image == '' ? (
+      {/* <div className="webcam-img">
+        {image === '' ? (
           <Webcam
             audio={false}
             height={400}
@@ -41,7 +40,15 @@ export const WebcamCapture = () => {
         ) : (
           <img src={image} alt=""/>
         )}
-      </div>
+      </div> */}
+      <Webcam
+        audio={false}
+        height={400}
+        ref={webcamRef}
+        screenshotFormat="image/jpeg"
+        width={520}
+        videoConstraints={videoConstraints}
+      />
       <div>
         {makeSubmmit ? (
           <button className="webcam-btn">Submit</button>
