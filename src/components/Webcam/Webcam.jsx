@@ -36,7 +36,7 @@ export const WebcamCapture = () => {
         { userKYC },
         {
           headers: {
-            'Content-Type': `application/json` 
+            'Content-Type': `application/json`
           }
         }
       );
