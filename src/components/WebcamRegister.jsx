@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Webcam from 'react-webcam';
 import axios from 'axios';
-
+import { useParams } from 'react-router-dom';
 const videoConstraints = {
   width: 520,
   height: 500,
@@ -9,6 +9,7 @@ const videoConstraints = {
 };
 
 const WebcamRegister = () => {
+  const {customerid} = useParams();
   const [imgArr, setImgArr] = useState([]);
   const webcamRef = React.useRef(null);
   const [count, setCount] = useState(5);
@@ -18,13 +19,13 @@ const WebcamRegister = () => {
       setCount(count - 1);
       let imageSrc = webcamRef.current.getScreenshot();
       imageSrc = imageSrc.replace("data:image/jpeg;base64,","");
-      setImgArr([... imgArr, {id: imgArr.length, value: imageSrc}])
+      setImgArr([...imgArr, {id: imgArr.length, value: imageSrc}])
     } else {
       setSubmit(true);
     }
   };
   const userKYC = {
-    customer_id: 'A37B2O7S12FMWC',
+    customer_id: customerid,
     image: imgArr
   };
   const formSubmit = async () => {
@@ -35,10 +36,7 @@ const WebcamRegister = () => {
         { userKYC },
         {
           headers: {
-            'Content-Type': `application/json`,
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Headers':
-              'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+            'Content-Type': `application/json`
           },
         }
       );
@@ -48,14 +46,14 @@ const WebcamRegister = () => {
     }
   };
   return (
-    <>
+    <div className="bg-opacity-100">
       <h1 style={{backgroundColor: "#000000"}} className="text-center font-sans py-5 text-xl font-bold text-white">
         Capture and Submit Your Image!
       </h1>
       <div className="">
         <div className="my-10">
-          <div class="flex flex-wrap justify-center">
-            <div class="w-6/12 sm:w-4/12 px-4 shadow-2xl">
+          <div className="flex flex-wrap justify-center">
+            <div className="w-6/12 sm:w-4/12 px-4 shadow-2xl">
               <Webcam
                 audio={false}
                 height={400}
@@ -95,7 +93,7 @@ const WebcamRegister = () => {
           )}
         </div>
     </div>
-    </>
+    </div>
   );
 };
 export default WebcamRegister;

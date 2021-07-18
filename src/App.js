@@ -7,7 +7,7 @@ function App() {
     <Router>
       <div className="App">
         <Switch>
-          <Route path="/register">
+          <Route path="/register/:customerid">
             <WebcamRegister />
           </Route>
           <Route path="/sign-in">
