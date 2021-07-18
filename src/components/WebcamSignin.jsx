@@ -23,7 +23,7 @@ const WebcamSignin = () => {
         style={{ backgroundColor: '#000000' }}
         className="text-center py-5 text-xl font-bold text-white"
       >
-        pay with Smile
+        Pay with Smile
       </h1>
       <div className="">
         <div className="my-10">
@@ -31,7 +31,7 @@ const WebcamSignin = () => {
             <div className="w-6/12 sm:w-4/12 px-4">
               {imageCapture === '' ? (
                 <>
-                 <h1>Capturing Image, stay still</h1>
+                 <h1>Capturing Image, Smile please !! 😃 </h1>
                   <Webcam
                     audio={false}
                     height={400}
