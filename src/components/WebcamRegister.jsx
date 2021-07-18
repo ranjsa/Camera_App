@@ -24,12 +24,13 @@ const WebcamRegister = () => {
       setSubmit(true);
     }
   };
-  const userKYC = {
+  let userKYC = {
     customer_id: customerid,
     image: imgArr
   };
   const formSubmit = async () => {
-    // await setImageArr(JSON.stringify(imgArray));
+    //await setImageArr(JSON.stringify(imgArray));
+    userKYC = await JSON.stringify(userKYC);
     try {
       const response = await axios.post(
         'https://w7hfmjr0b8.execute-api.us-east-1.amazonaws.com/v1/register',
