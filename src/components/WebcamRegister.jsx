@@ -18,6 +18,7 @@ const WebcamRegister = () => {
   const [imgArr, setImgArr] = useState([]);
   const webcamRef = React.useRef(null);
   const [count, setCount] = useState(5);
+  // const [state, setState] = useState({});
   const [makeSubmmit, setSubmit] = useState(false);
   const capture = () => {
     if (count >= 1) {
@@ -35,46 +36,16 @@ const WebcamRegister = () => {
   };
   const formSubmit = async () => {
     userKYC = await JSON.stringify(userKYC);
-    await axios.post('https://w7hfmjr0b8.execute-api.us-east-1.amazonaws.com/v1/register', { userKYC },{ headers: {
+    window.customer_id = cust_id;
+    await axios.post('https://w7hfmjr0b8.execute-api.us-east-1.amazonaws.com/v1/register', {userKYC: userKYC} ,{ headers: {
       'Content-Type': `application/json`,
     }}).then((res) => {
       console.log(res)
       history.push('/success')
     })
-    // console.log();
-    // try {
-    //   const response = await axios
-    //     .post(
-    //       'https://w7hfmjr0b8.execute-api.us-east-1.amazonaws.com/v1/register',
-    //       { userKYC },
-    //       {
-    //         headers: {
-    //           'Content-Type': `application/json`,
-    //         },
-    //       }
-    //     )
-    //     console.log(response);
-    // } catch (err) {}
-
+    console.log(userKYC);
   };
 
-  // const formSubmit = async () => {
-  //   userKYC = await JSON.stringify(userKYC);
-  //   axios.post(
-  //     'https://w7hfmjr0b8.execute-api.us-east-1.amazonaws.com/v1/register',
-  //     { userKYC },
-  //     {
-  //       headers: {
-  //         'Content-Type': `application/json`,
-  //       },
-  //     }
-  //   ).then((res ) => {
-  //     if (res.status === 200) {
-  //       console.log("Success")
-  //       window.location.href="/success"
-  //     }
-  //   });
-  // };
   return (
     <div className="">
       <h1

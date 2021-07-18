@@ -1,13 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import Webcam from 'react-webcam';
 import AfterSignin from './AfterSignin';
-
+import { useLocation } from 'react-router-dom';
 const videoConstraints = {
   width: 520,
   height: 500,
   facingMode: 'user',
 };
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 const WebcamSignin = () => {
+  const [state, setState] = useState({});
+  const params = useQuery();
+  const sessionId = params.get('amazonCheckoutSessionId');
+  const cancelReturnURL = params.get('cancelReturnURL');
+  const wid = params.get('wid');
+  const product_type = params.get('product_type');
+  const origin_url = params.get('origin_url');
+  const merchantId = params.get('merchantId');
+  const ledger_currency = params.get('ledger_currency');
+  const isLegacyExpressCheckout = params.get('isLegacyExpressCheckout');
+  const env = params.get('env');
+  const controller = params.get('controller');
+  const coe = params.get('coe');
+  const action = params.get('action');
   const [imageCapture, setImageCapture] = useState('');
   const webcamRef = React.useRef(null);
   useEffect(() => {
@@ -15,6 +32,19 @@ const WebcamSignin = () => {
       setImageCapture(webcamRef.current.getScreenshot());
       console.log('captured');
     }, 4000);
+    state.sessionId = sessionId;
+    state.cancelReturnURL = cancelReturnURL;
+    state.wid = wid;
+    state.ledger_currency = ledger_currency;
+    state.env = env;
+    state.controller = controller;
+    state.coe = coe;
+    state.isLegacyExpressCheckout = isLegacyExpressCheckout;
+    state.merchantId = merchantId;
+    state.origin_url = origin_url;
+    state.product_type = product_type;
+    state.action = action;
+    setState(state);
     return () => clearTimeout(timer);
   }, []);
   return (
@@ -43,7 +73,7 @@ const WebcamSignin = () => {
                 </>
               ) : (
                 <>
-                  <AfterSignin image={imageCapture} />
+                  <AfterSignin image={imageCapture} state={state}/>
                 </>
               )}
             </div>
