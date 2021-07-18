@@ -8,7 +8,7 @@ function App() {
     <Router>
       <div className="App">
         <Switch>
-          <Route path="/register/:customerid?">
+          <Route path="/register">
             <WebcamRegister />
           </Route>
           <Route path="/success">

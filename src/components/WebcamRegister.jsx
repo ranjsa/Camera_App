@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Webcam from 'react-webcam';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory  } from 'react-router-dom';
 const videoConstraints = {
   width: 520,
   height: 500,
@@ -12,6 +12,7 @@ function useQuery() {
 }
 
 const WebcamRegister = () => {
+  let history = useHistory();
   const params = useQuery();
   const cust_id = params.get('customerid');
   const [imgArr, setImgArr] = useState([]);
@@ -34,22 +35,46 @@ const WebcamRegister = () => {
   };
   const formSubmit = async () => {
     userKYC = await JSON.stringify(userKYC);
-    try {
-      const response = await axios
-        .post(
-          'https://w7hfmjr0b8.execute-api.us-east-1.amazonaws.com/v1/register',
-          { userKYC },
-          {
-            headers: {
-              'Content-Type': `application/json`,
-            },
-          }
-        ).then(
-          window.location.href="/success"
-        )
-        console.log(response);
-    } catch (err) {}
+    await axios.post('https://w7hfmjr0b8.execute-api.us-east-1.amazonaws.com/v1/register', { userKYC },{ headers: {
+      'Content-Type': `application/json`,
+    }}).then((res) => {
+      console.log(res)
+      history.push('/success')
+    })
+    // console.log();
+    // try {
+    //   const response = await axios
+    //     .post(
+    //       'https://w7hfmjr0b8.execute-api.us-east-1.amazonaws.com/v1/register',
+    //       { userKYC },
+    //       {
+    //         headers: {
+    //           'Content-Type': `application/json`,
+    //         },
+    //       }
+    //     )
+    //     console.log(response);
+    // } catch (err) {}
+
   };
+
+  // const formSubmit = async () => {
+  //   userKYC = await JSON.stringify(userKYC);
+  //   axios.post(
+  //     'https://w7hfmjr0b8.execute-api.us-east-1.amazonaws.com/v1/register',
+  //     { userKYC },
+  //     {
+  //       headers: {
+  //         'Content-Type': `application/json`,
+  //       },
+  //     }
+  //   ).then((res ) => {
+  //     if (res.status === 200) {
+  //       console.log("Success")
+  //       window.location.href="/success"
+  //     }
+  //   });
+  // };
   return (
     <div className="">
       <h1
