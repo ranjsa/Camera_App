@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import Webcam from 'react-webcam';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 const videoConstraints = {
   width: 520,
   height: 500,
   facingMode: 'user',
 };
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 
 const WebcamRegister = () => {
-  const {customerid} = useParams();
+  const params = useQuery();
+  const cust_id = params.get('customerid');
   const [imgArr, setImgArr] = useState([]);
   const webcamRef = React.useRef(null);
   const [count, setCount] = useState(5);
@@ -18,43 +22,46 @@ const WebcamRegister = () => {
     if (count >= 1) {
       setCount(count - 1);
       let imageSrc = webcamRef.current.getScreenshot();
-      imageSrc = imageSrc.replace("data:image/jpeg;base64,","");
-      setImgArr([...imgArr, {id: imgArr.length, value: imageSrc}])
+      imageSrc = imageSrc.replace('data:image/jpeg;base64,', '');
+      setImgArr([...imgArr, { id: imgArr.length, value: imageSrc }]);
     } else {
       setSubmit(true);
     }
   };
   let userKYC = {
-    customer_id: customerid,
-    image: imgArr
+    customer_id: cust_id,
+    image: imgArr,
   };
   const formSubmit = async () => {
-    //await setImageArr(JSON.stringify(imgArray));
     userKYC = await JSON.stringify(userKYC);
     try {
-      const response = await axios.post(
-        'https://w7hfmjr0b8.execute-api.us-east-1.amazonaws.com/v1/register',
-        { userKYC },
-        {
-          headers: {
-            'Content-Type': `application/json`
-          },
-        }
-      );
-      console.log('👉 Returned data:', response);
-    } catch (e) {
-      console.log(`😱 Axios request failed: ${e}`);
-    }
+      const response = await axios
+        .post(
+          'https://w7hfmjr0b8.execute-api.us-east-1.amazonaws.com/v1/register',
+          { userKYC },
+          {
+            headers: {
+              'Content-Type': `application/json`,
+            },
+          }
+        ).then(
+          window.location.href="/success"
+        )
+        console.log(response);
+    } catch (err) {}
   };
   return (
-    <div className="bg-opacity-100">
-      <h1 style={{backgroundColor: "#000000"}} className="text-center font-sans py-5 text-xl font-bold text-white">
+    <div className="">
+      <h1
+        style={{ backgroundColor: '#000000' }}
+        className="text-center font-sans py-5 text-xl font-bold text-white"
+      >
         Capture and Submit Your Image!
       </h1>
       <div className="">
         <div className="my-10">
           <div className="flex flex-wrap justify-center">
-            <div className="w-6/12 sm:w-4/12 px-4 shadow-2xl">
+            <div className="w-6/12 sm:w-4/12 shadow-2xl ring-4 ring-yellow-500 ring-opacity-50">
               <Webcam
                 audio={false}
                 height={400}
@@ -70,7 +77,7 @@ const WebcamRegister = () => {
         <div>
           {makeSubmmit || count === 0 ? (
             <button
-            style={{backgroundColor: "#FF9900"}}
+              style={{ backgroundColor: '#FF9900' }}
               onClick={(e) => {
                 e.preventDefault();
                 formSubmit();
@@ -81,7 +88,7 @@ const WebcamRegister = () => {
             </button>
           ) : (
             <button
-            style={{backgroundColor: "#FF9900"}}
+              style={{ backgroundColor: '#FF9900' }}
               onClick={(e) => {
                 e.preventDefault();
                 capture();
@@ -89,30 +96,11 @@ const WebcamRegister = () => {
               className="text-white font-bold py-2 px-4"
             >
               <h1 className="font-bold">Capture {' ' + count}</h1>
-              
             </button>
           )}
         </div>
-    </div>
+      </div>
     </div>
   );
 };
 export default WebcamRegister;
-/*
-    // try {
-    //   fetch(
-    //     'https://uolkz55l63.execute-api.us-east-1.amazonaws.com/v2/upload',
-    //     {
-    //       method: 'POST',
-    //       headers: { 'Content-Type': 'application/json',
-    //       'Access-Control-Allow-Origin': '*',
-    //     },
-    //       body: JSON.stringify(userKYC),
-    //     }
-    //   ).then(() => {
-    //     console.log('new blog added');
-    //   });
-    // } catch (err) {
-    //   console.log(err);
-    // }
-*/

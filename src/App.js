@@ -2,6 +2,7 @@ import './App.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import WebcamRegister from './components/WebcamRegister';
 import WebcamSignin from './components/WebcamSignin';
+import AfterRegister from './components/AfterRegister';
 function App() {
   return (
     <Router>
@@ -9,6 +10,9 @@ function App() {
         <Switch>
           <Route path="/register/:customerid?">
             <WebcamRegister />
+          </Route>
+          <Route path="/success">
+            <AfterRegister />
           </Route>
           <Route path="/sign-in">
             <WebcamSignin />
